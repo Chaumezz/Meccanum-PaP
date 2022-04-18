@@ -28,9 +28,7 @@ int paroMot = 1600;
 
 //                                                      Variables de joystick y mezcla ruedas
 int RX, RY, LX, LY;
-int LFW_speed_base, RFW_speed_base, RBW_speed_base, LBW_speed_base;   // Right pad eje Y
-int RFW_speed_turn, LFW_speed_turn, RBW_speed_turn, LBW_speed_turn;   // Right pad eje X
-int RFW_speed_mix , LFW_speed_mix , RBW_speed_mix , LBW_speed_mix;    // Left pad eje Y, mix mecannum
+int speed_base, speed_side, speed_turn;
 int RFW_speed, RBW_speed, LFW_speed, LBW_speed;
 int wheelSpeed = 1000;
 
@@ -118,30 +116,15 @@ void readBluetooth () {
 }
 
 void mezclaMotores () {
-
   //                                                           Mezcla por rueda de 4 canales de los dos joysticks
-  LFW_speed_base = map (RY, -100, 100, MAX_SPEED, -MAX_SPEED);
-  LFW_speed_turn = map (RX, -100, 100, -SIDE_SPEED, SIDE_SPEED);
-  LFW_speed_mix  = map (LX, -100, 100, TURN_SPEED, -TURN_SPEED);
-  LFW_speed = ((LFW_speed_base - LFW_speed_mix) + LFW_speed_turn);
- 
+  speed_base = map ( RY, -100, 100 , MAX_SPEED, -MAX_SPEED );
+  speed_side = map ( RX, -100, 100 , SIDE_SPEED, -SIDE_SPEED );
+  speed_turn = map ( LX, -100, 100 , TURN_SPEED, -TURN_SPEED );
 
-  LBW_speed_base = map (RY, -100, 100, MAX_SPEED, -MAX_SPEED);
-  LBW_speed_turn = map (RX, -100, 100, SIDE_SPEED, -SIDE_SPEED);
-  LBW_speed_mix  = map (LX, -100, 100, TURN_SPEED, -TURN_SPEED);
-  LBW_speed = ((LBW_speed_base - LBW_speed_mix ) + LBW_speed_turn);
-
-
-  RFW_speed_base = map (RY, -100, 100, MAX_SPEED, -MAX_SPEED);
-  RFW_speed_turn = map (RX, -100, 100, SIDE_SPEED, -SIDE_SPEED);
-  RFW_speed_mix  = map (LX, -100, 100, -TURN_SPEED, TURN_SPEED);
-  RFW_speed = ((RFW_speed_base - RFW_speed_mix) + RFW_speed_turn);
-
-
-  RBW_speed_base = map (RY, -100, 100,  MAX_SPEED, -MAX_SPEED);
-  RBW_speed_turn = map (RX, -100, 100, -SIDE_SPEED, SIDE_SPEED);
-  RBW_speed_mix  = map (LX, -100, 100, -TURN_SPEED, TURN_SPEED);
-  RBW_speed = ((RBW_speed_base - RBW_speed_mix ) + RBW_speed_turn) ;
+  LFW_speed = (( speed_base - speed_turn ) - speed_side );
+  LBW_speed = (( speed_base - speed_turn ) + speed_side );
+  RFW_speed = (( speed_base + speed_turn ) + speed_side );
+  RBW_speed = (( speed_base + speed_turn ) - speed_side );
 }
 
 

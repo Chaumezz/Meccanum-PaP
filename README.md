@@ -1,5 +1,5 @@
 # Meccanum-PaP
-Bot meccanum, con control de traslacion y rotación
+Bot meccanum, con control de traslacion y rotación proporcional, escribiendo velocidades en motores PaP.
 
 
 
